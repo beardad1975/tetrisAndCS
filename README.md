@@ -5,10 +5,10 @@
 2016/7/20 於大溪高中上課的程式範例與簡易說明
 
 # 需求
-*python3
-*pyserial(用pip安裝)
-*使用內建msvcrt，該library只針對windows平台
-*所有程式以command prompt執行
+* python3
+* pyserial(用pip安裝)
+* 使用內建msvcrt，該library只針對windows平台
+* 所有程式以command prompt執行
 
 # 猜數字
 *用法： python guess.py

@@ -1,0 +1,94 @@
+#include "LedControl.h"
+
+LedControl lc = LedControl(12, 11, 10, 1);
+
+String inStr = "";
+String tmpStr = "";
+int row = 0;
+int column = 0;
+int value = 0;
+
+void setup() {
+  Serial.begin(9600);
+  
+  // put your setup code here, to run once:
+  lc.shutdown(0,false);
+  /* Set the brightness to a medium values */
+  lc.setIntensity(0,4);
+  /* and clear the display */
+  lc.clearDisplay(0);
+
+  Serial.println(" Led8x8 starting ... (setRow,0,255)");
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  while ( Serial.available() > 0 ){
+       inStr = Serial.readStringUntil('\n'); 
+
+       if (inStr.startsWith("setLed")){
+          tmpStr = inStr.substring(7,8);
+          row = tmpStr.toInt();
+
+          tmpStr = inStr.substring(9,10);
+          column = tmpStr.toInt();
+
+          tmpStr = inStr.substring(11,12);
+          value = tmpStr.toInt();
+          
+          lc.setLed(0, row, column, value);
+
+          Serial.print("setLed >> ");
+          Serial.print("row:");
+          Serial.print(row);
+          Serial.print(" ,column:");
+          Serial.print(column);
+          Serial.print(" ,value:");
+          Serial.println(value);
+       } 
+
+       if (inStr.startsWith("setRow")){
+          tmpStr = inStr.substring(7,8);
+          row = tmpStr.toInt();
+
+          tmpStr = inStr.substring(9);
+          value = tmpStr.toInt();
+          
+          if ( row >=0 && row < 8 && value >=0 && value < 256 ){
+              lc.setRow(0, row, value);
+          }
+
+          Serial.print("setRow >> ");
+          Serial.print("row:");
+          Serial.print(row);
+          Serial.print(" ,value:");
+          Serial.println(value);
+       } 
+       
+
+       if (inStr.startsWith("setColumn")){
+          tmpStr = inStr.substring(10,11);
+          column = tmpStr.toInt();
+
+          tmpStr = inStr.substring(12);
+          value = tmpStr.toInt();
+          
+          if ( column >=0 && column < 8 && value >=0 && value < 256 ){
+              lc.setColumn(0, column, value);
+          }
+          Serial.print("setColumn >> ");
+          Serial.print("column:");
+          Serial.print(column);
+          Serial.print(" ,value:");
+          Serial.println(value);
+
+       } 
+
+  }
+    
+
+
+
+}
